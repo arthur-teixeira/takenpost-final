@@ -1,0 +1,35 @@
+<div class="info">
+   <div class="img">
+      <img src="{{source}}" class="img-thumbnail float-left mr-5" alt="" style="border-radius:50%; width:30%;">
+   </div>
+   <div class="content">
+      <h1>{{name}}</h1>
+      <nav class="profile-counters">
+         <ul>
+            <li><span class="counter lead">{{followers}}</span> seguidores</li>
+            <li><span class="counter lead">{{posts}}</span> Postagens</li>
+            <li><span class="counter lead">{{following}}</span> Seguindo</li>
+         </ul>
+         <p class="lead">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, asperiores. Quam beatae, minus ipsum
+            consequatur eum quisquam? Eius accusamus vel officiis quam. Id, amet. Modi mollitia accusantium, nulla
+            veniam laudantium nobis voluptatum! Ab ut dolorum, consequuntur porro unde ipsa, soluta non amet optio
+            ex
+            tempora excepturi ipsam voluptatibus odit est!
+         </p>
+      </nav>
+   </div>
+   <div class="posts">
+      <div class="row">
+         {{#each post}}
+         <div class="col-sm-4 my-3">
+            <div class="card">
+               <a href="/posts/show/ID">
+                  <img src="img/land1.jpg" alt="" class="card-img-top">
+               </a>
+            </div>
+         </div>
+         {{/each}}
+      </div>
+   </div>
+</div>

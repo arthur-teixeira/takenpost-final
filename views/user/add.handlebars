@@ -1,0 +1,21 @@
+<div class="jumbotron">
+   <form action="/post/add" method="POST">
+      <h1>Adicionar Foto</h1>
+      <div class="form-group">
+         <img class="preview" style="width: 50%;">
+      </div>
+      <div class="form-group">
+         <label for="image" class="lead">Escolha a foto</label>
+         <input type="file" name="image" id="image" class="form-control-file">
+      </div>
+      <div class="form-group">
+         <label for="legenda" class="lead">Insira uma legenda</label>
+         <input type="text" name="legenda" id="legenda" class="form-control">
+      </div>
+      <div class="form-group">
+         <button type="submit" class="btn btn-primary">
+            Postar
+         </button>
+      </div>
+   </form>
+</div>
