@@ -3,7 +3,10 @@ const router = express.Router();
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
-const {ensureAuth, ensureGuest} = require("../helpers/auth")
+const {
+   ensureAuth,
+   ensureGuest
+} = require("../helpers/auth")
 
 //carrega modelo do usuário
 require("../models/User");
@@ -16,6 +19,7 @@ router.get("/profile", ensureAuth, (req, res) => {
    });
 })
 
+//login
 router.route('/login')
    //form login
    .get(ensureGuest, (req, res) => {
