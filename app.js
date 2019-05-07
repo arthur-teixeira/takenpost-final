@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const flash = require("connect-flash");
 const session = require("express-session")
+const path = require("path");
 const passport = require("passport");
 const app = express()
 
@@ -17,6 +18,9 @@ app.use(session({
    saveUninitialized: true
  }));
 app.use(flash());
+
+//pasta estática
+app.use(express.static(path.join(__dirname, 'public')));
 
 //carregar rotas
 const indexRoute = require("./routes/index")

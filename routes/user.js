@@ -10,7 +10,9 @@ const User = mongoose.model("users")
 
 //Perfil do Usuário
 router.get("/profile", (req, res) => {
-   res.render("user/profile");
+   res.render("user/profile",{
+      source: '/img/pfp2.jpg'
+   });
 })
 
 router.route('/login')
@@ -25,6 +27,11 @@ router.route('/login')
          failureFlash: true
       })(req,res,next)
    })
+
+//feed
+router.get('/feed',(req,res) =>{
+   res.render("user/feed")
+})
 
 //registrar usuário
 router.route('/register')
@@ -64,7 +71,8 @@ router.route('/register')
                   const newUser = new User({
                      name: req.body.name,
                      email: req.body.email,
-                     password: req.body.password
+                     password: req.body.password,
+                     pfp : req.body.avatar
                   });
 
                   bcrypt.genSalt(10, (err, salt) => {
