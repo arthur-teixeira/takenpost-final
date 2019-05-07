@@ -1,13 +1,13 @@
-<!-- CORPO -->
+<!--cada post-->
 <div class="post">
    <div class="post-header">
       <a href="/user/show/ID">
-         <img src="img/pfp3.jpg" class="pfp-post-header">
-         <p class="lead text-dark">usuario</p>
+         <img src="/img/pfp2.jpg" class="pfp-post-header">
+         <p class="lead text-dark">{{user.name}}usuario</p>
       </a>
    </div>
    <figure>
-      <img src="img/land1.jpg" class="img-fluid">
+      <img src="/img/land2.jpg" class="img-fluid">
       <figcaption class="mt-2">Legenda da foto</figcaption>
    </figure>
    <div class="comment">
@@ -15,47 +15,15 @@
          <li>
             <i class="like far fa-heart fa-2x"></i>
             <a href="/post/show/ID" class="text-dark"><i class="far fa-comments fa-2x comment-button"></i></a>
-         </li>
-         <li>
-            <p class="text-muted"><span class="likers text-dark">20</span> curtiram isso</p>
-         </li>
-         <li>
-            <form class="form-inline my-2 my-lg-0">
-               <input class="form-control mr-sm-2 comment-box" type="text" placeholder="Escreva aqui"
-                  aria-label="Comentar">
-               <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Comentar</button>
-            </form>
-         </li>
-      </ul>
-   </div>
-
-</div>
-
-<div class="post">
-   <div class="post-header">
-      <a href="/user/show/ID">
-         <img src="img/pfp2.jpg" alt="" class="pfp-post-header">
-         <p class="lead text-dark">usuário</p>
-      </a>
-   </div>
-   <figure>
-      <img src="img/land2.jpg" class="img-fluid">
-      <figcaption class="mt-2">Legenda da foto</figcaption>
-   </figure>
-   <div class="comment">
-      <ul class="mr-auto navbar-nav my-3">
-         <li>
-            <i class="like far fa-heart fa-2x"></i>
-            <a href="/post/show/ID" class="text-dark"><i class="far fa-comments fa-2x comment-button"></i></a>
-            <p class="text-muted"><span class="likers text-dark">20</span> curtiram isso</p>
+            <p class="text-muted"><span class="likers text-dark">{{likes}}</span> curtiram isso</p>
          </li>
          <li class="comment-section mt-1 mb-2">
             <ul>
                {{#each comment}}
                <li class="comentario">
                   <p>
-                     <a href="/users/id" class="usuario font-weight-bold text-dark">Usuário</a>
-                     Comentário da foto
+                     <a href="/users/id" class="usuario font-weight-bold text-dark">{{user.name}}</a>
+                     {{comment}}
                   </p>
                </li>
                {{/each}}
@@ -70,20 +38,6 @@
    </div>
 
 </div>
+<!--/each-->
 
-
-</body>
-<script>
-   let likes = document.querySelectorAll(".like");
-   let liked = true;
-   likes.forEach(like => like.addEventListener("click", () => {
-      liked = !liked;
-      if (!liked) {
-         like.classList.add("fas")
-         like.classList.remove("far")
-      } else {
-         like.classList.remove("fas")
-         like.classList.add("far")
-      }
-   }))
-</script>
+<script src="/js/likeButton.js"></script>

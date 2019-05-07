@@ -8,6 +8,7 @@ const path = require("path");
 const passport = require("passport");
 const app = express()
 
+
 // Passport Config
 require('./config/passport')(passport);
 
@@ -19,11 +20,19 @@ app.use(session({
  }));
 app.use(flash());
 
+//variáveis globais
+app.use(function (req, res, next) {
+   res.locals.success_msg = req.flash('success_msg');
+   res.locals.error_msg = req.flash('error_msg');
+   res.locals.error = req.flash('error');
+   res.locals.user = "teste res.use";
+   next();
+});
+
 //pasta estática
 app.use(express.static(path.join(__dirname, 'public')));
 
 //carregar rotas
-const indexRoute = require("./routes/index")
 const userRoute = require("./routes/user")
 
 //middleware handlebars
@@ -44,27 +53,18 @@ mongoose.connect('mongodb://localhost/takenpost-dev', {
    })
    .then(() => console.log("Conectado ao banco"))
    .catch(err => console.log(err))
-
-
-//variáveis globais
-app.use(function (req, res, next) {
-   res.locals.success_msg = req.flash('success_msg');
-   res.locals.error_msg = req.flash('error_msg');
-   res.locals.error = req.flash('error');
-   res.locals.user = req.user || null;
-   next();
-});
-
-
- 
+   
  //middleware Passport
  app.use(passport.initialize());
  app.use(passport.session());
  
+//root
+app.get('/',(req,res) =>{
+   res.render("index/welcome")
+})
 
 
 //definicao de rotas
-app.use('/', indexRoute)
 app.use('/user', userRoute)
 
 

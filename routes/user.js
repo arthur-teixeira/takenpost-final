@@ -3,42 +3,44 @@ const router = express.Router();
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
+const {ensureAuth, ensureGuest} = require("../helpers/auth")
 
 //carrega modelo do usuário
 require("../models/User");
 const User = mongoose.model("users")
 
 //Perfil do Usuário
-router.get("/profile", (req, res) => {
-   res.render("user/profile",{
+router.get("/profile", ensureAuth, (req, res) => {
+   res.render("user/profile", {
       source: '/img/pfp2.jpg'
    });
 })
 
 router.route('/login')
    //form login
-   .get((req, res) => {
+   .get(ensureGuest, (req, res) => {
       res.render("user/login")
    })
-   .post((req,res, next) =>{
-      passport.authenticate('local',{
+   .post(ensureGuest, (req, res, next) => {
+      passport.authenticate('local', {
          successRedirect: '/user/feed',
          failureRedirect: '/user/login',
          failureFlash: true
-      })(req,res,next)
+      })(req, res, next)
    })
 
 //feed
-router.get('/feed',(req,res) =>{
+router.get('/feed', ensureAuth, (req, res) => {
+   console.log(res.locals.user)
    res.render("user/feed")
 })
 
 //registrar usuário
 router.route('/register')
-   .get((req, res) => {
+   .get(ensureGuest, (req, res) => {
       res.render("user/register")
    })
-   .post((req, res) => {
+   .post(ensureGuest, (req, res) => {
       let errors = [];
 
       if (req.body.password != req.body.password2) {
@@ -57,6 +59,7 @@ router.route('/register')
          res.render("user/register", {
             errors,
             name: req.body.name,
+            lastName: req.body.lastName,
             email: req.body.email
          });
       } else {
@@ -70,9 +73,10 @@ router.route('/register')
                } else {
                   const newUser = new User({
                      name: req.body.name,
+                     lastName: req.body.lastName,
                      email: req.body.email,
                      password: req.body.password,
-                     pfp : req.body.avatar
+                     pfp: req.body.avatar
                   });
 
                   bcrypt.genSalt(10, (err, salt) => {
@@ -81,7 +85,7 @@ router.route('/register')
                         newUser.password = hash;
                         newUser.save()
                            .then(user => {
-                              req.flash("success_msg","Você foi registrado e pode se logar")
+                              req.flash("success_msg", "Você foi registrado e pode se logar")
                               res.redirect("/user/login")
                            })
                            .catch(err => {
@@ -94,4 +98,11 @@ router.route('/register')
             })
       }
    })
+
+router.get('/logout', ensureAuth, (req, res) => {
+   req.logout();
+   req.flash("success_msg", "Você saiu")
+   res.redirect('/user/login')
+})
+
 module.exports = router

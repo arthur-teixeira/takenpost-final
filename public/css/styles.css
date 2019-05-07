@@ -1,5 +1,6 @@
 :root{
    --maincolor: #ffffff;
+   --bgcolor: #a2aab2;
 }
 html {
    box-sizing: border-box;
@@ -81,14 +82,18 @@ a:focus {
    padding: 10%;
 }
 
-.btn {
+.btn-custom {
    background: var(--maincolor);
    border: 0;
    transition: all 0.3s ease;
 }
 
-.btn:hover {
+.btn-custom:hover {
    background: #ffffff;
    color: var(--maincolor);
    border: 1px solid var(--maincolor);
+}
+
+.bg-custom{
+   background: var(--bgcolor)
 }
