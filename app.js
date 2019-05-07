@@ -20,21 +20,6 @@ app.use(session({
  }));
 app.use(flash());
 
-//variáveis globais
-app.use(function (req, res, next) {
-   res.locals.success_msg = req.flash('success_msg');
-   res.locals.error_msg = req.flash('error_msg');
-   res.locals.error = req.flash('error');
-   res.locals.user = "teste res.use";
-   next();
-});
-
-//pasta estática
-app.use(express.static(path.join(__dirname, 'public')));
-
-//carregar rotas
-const userRoute = require("./routes/user")
-
 //middleware handlebars
 app.engine('handlebars', exphbs({
    defaultLayout: 'main'
@@ -47,6 +32,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
+
+//pasta estática
+app.use(express.static(path.join(__dirname, 'public')));
+
+//carregar rotas
+const userRoute = require("./routes/user")
+
 //conectar ao banco
 mongoose.connect('mongodb://localhost/takenpost-dev', {
       useNewUrlParser: true
@@ -58,9 +51,20 @@ mongoose.connect('mongodb://localhost/takenpost-dev', {
  app.use(passport.initialize());
  app.use(passport.session());
  
+//variáveis globais
+app.use(function(req, res, next){
+   res.locals.success_msg = req.flash('success_msg');
+   res.locals.error_msg = req.flash('error_msg');
+   res.locals.error = req.flash('error');
+   res.locals.user = req.user;
+   next();
+ });
+
 //root
 app.get('/',(req,res) =>{
-   res.render("index/welcome")
+   (req.isAuthenticated()) 
+   ? res.redirect("/user/feed") 
+   : res.redirect("/user/login")
 })
 
 

@@ -31,7 +31,6 @@ router.route('/login')
 
 //feed
 router.get('/feed', ensureAuth, (req, res) => {
-   console.log(res.locals.user)
    res.render("user/feed")
 })
 
