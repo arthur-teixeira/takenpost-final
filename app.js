@@ -9,8 +9,8 @@ const passport = require("passport");
 const app = express()
 
 
-// Passport Config
-require('./config/passport')(passport);
+// Passport Config local
+require('./config/localPassport')(passport);
 
 //middleware Express session 
 app.use(session({
