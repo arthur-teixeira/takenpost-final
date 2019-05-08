@@ -18,9 +18,7 @@ const Post = mongoose.model("posts")
 //Perfil do Usuário
 router.get("/profile/:id", ensureAuth, (req, res) => {
    let userid = req.params.id;
-   User.findOne({
-      _id: userid
-   })
+   User.findById(userid)
       .then(user =>{
          if(user){
             res.render("user/profile", {
@@ -56,6 +54,7 @@ router.get('/feed', ensureAuth, (req, res) => {
          date: 'desc'
       })
       .then(posts =>{
+         console.log(posts)
          res.render("user/feed", {
             posts
          })
@@ -154,6 +153,18 @@ router.route('/add')
          .then(post =>{
             res.redirect(`/user/show/${post.id}`)
          })
-   }) 
+   })
+   //mostra posts
+   router.get('/show/:id',(req,res) =>{
+      let postid = req.params.id;
+      Post.findOne({
+         _id: postid
+      })
+      .then(post =>{
+         res.render("user/show", {
+            post
+         })
+      }) 
+   })
 
 module.exports = router
