@@ -11,18 +11,33 @@ const {
 //carrega modelo do usuário
 require("../models/User");
 const User = mongoose.model("users")
+//carrega modelo dos posts
+require("../models/Post")
+const Post = mongoose.model("posts")
 
 //Perfil do Usuário
-router.get("/profile", ensureAuth, (req, res) => {
-   res.render("user/profile", {
-      source: '/img/pfp2.jpg'
-   });
+router.get("/profile/:id", ensureAuth, (req, res) => {
+   let userid = req.params.id;
+   User.findOne({
+      _id: userid
+   })
+      .then(user =>{
+         if(user){
+            res.render("user/profile", {
+               profile: user
+            })
+         } else {
+            req.flash("error_msg","este usuário não existe");
+            res.redirect("/user/login")
+         }
+      })
+      .catch(err => console.log(err))
 })
 
 //login
 router.route('/login')
    //form login
-   .get(ensureGuest, (req, res) => {
+   .get((req, res) => {
       res.render("user/login")
    })
    .post(ensureGuest, (req, res, next) => {
@@ -35,7 +50,16 @@ router.route('/login')
 
 //feed
 router.get('/feed', ensureAuth, (req, res) => {
-   res.render("user/feed")
+   Post.find({})
+      .populate('user')
+      .sort({
+         date: 'desc'
+      })
+      .then(posts =>{
+         res.render("user/feed", {
+            posts
+         })
+      })
 })
 
 //registrar usuário
@@ -107,5 +131,29 @@ router.get('/logout', ensureAuth, (req, res) => {
    req.flash("success_msg", "Você saiu")
    res.redirect('/user/login')
 })
+
+router.route('/add')
+   .get( ensureAuth,(req,res) =>{
+      res.render("user/add")
+   })
+   //adiciona post
+   .post(ensureAuth,(req,res) =>{
+      let allowComments;
+      req.body.allowComments 
+      ? allowComments = true 
+      : allowComments = false
+
+      const newPost = {
+         image: req.body.image,
+         caption: req.body.legenda,
+         allowComments,
+         user: req.user.id
+      }
+
+      new Post(newPost).save()
+         .then(post =>{
+            res.redirect(`/user/show/${post.id}`)
+         })
+   }) 
 
 module.exports = router

@@ -1,7 +1,7 @@
-<!--cada post-->
+{{#each posts}}
 <div class="post">
    <div class="post-header">
-      <a href="/user/show/ID">
+      <a href="/user/profile/{{user.id}}">
          <img src="/img/pfp2.jpg" class="pfp-post-header">
          <p class="lead text-dark">{{user.name}}</p>
       </a>
@@ -38,5 +38,5 @@
    </div>
 
 </div>
-<!--/each-->
+{{/each}}
 <script src="/js/likeButton.js"></script>

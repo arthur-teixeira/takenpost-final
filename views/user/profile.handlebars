@@ -1,21 +1,17 @@
 <div class="info">
    <div class="img">
-      <img src="{{source}}" class="img-thumbnail float-left mr-5" alt="" style="border-radius:50%; width:30%;">
+      <img src="{{profile.pfp}}" class="img-thumbnail float-left mr-5" alt="" style="border-radius:50%; width:30%;">
    </div>
    <div class="content">
-      <h1>{{name}}</h1>
+      <h1>{{profile.name}}</h1>
       <nav class="profile-counters">
-         <ul>
-            <li><span class="counter lead">{{followers}}</span> seguidores</li>
-            <li><span class="counter lead">{{posts}}</span> Postagens</li>
-            <li><span class="counter lead">{{following}}</span> Seguindo</li>
-         </ul>
+         {{#if profile.bio}}
          <p class="lead">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, asperiores. Quam beatae, minus ipsum
-            consequatur eum quisquam? Eius accusamus vel officiis quam. Id, amet. Modi mollitia accusantium, nulla
-            veniam laudantium nobis voluptatum! Ab ut dolorum, consequuntur porro unde ipsa, soluta non amet optio
-            ex
-            tempora excepturi ipsam voluptatibus odit est!
+            {{profile.bio}}
+         </p>
+         {{else}}
+         <p class="lead">
+            {{profile.name}}
          </p>
       </nav>
    </div>
