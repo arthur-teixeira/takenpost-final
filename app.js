@@ -71,7 +71,9 @@ app.get('/',(req,res) =>{
 //definicao de rotas
 app.use('/user', userRoute)
 
-
+app.use((req,res,next) =>{
+   res.status(404).render("404/404")
+})
 
 const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`Servidor escutando na porta ${port}`))
