@@ -31,7 +31,7 @@ module.exports = {
            })
            .then(posts =>{
               res.render("user/feed", {
-                 posts
+                 posts:posts
               })
            })
      }

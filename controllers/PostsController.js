@@ -1,3 +1,11 @@
+const mongoose = require("mongoose")
+
+//carrega modelo do usuário
+require("../models/User");
+const User = mongoose.model("users")
+//carrega modelo dos posts
+require("../models/Post")
+const Post = mongoose.model("posts")
 
 
 module.exports = {

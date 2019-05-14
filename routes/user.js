@@ -34,10 +34,10 @@ router.route('/register')
 router.get('/logout', ensureAuth, AuthController.logout)
 
 router.route('/add')
-   .get( ensureAuth, PostsController.getAdd)
+   .get(ensureAuth, PostsController.getAdd)
    //adiciona post
    .post(ensureAuth, PostsController.postAdd)
-   //mostra posts
-   router.get('/show/:id', PostsController.showPosts)
+//mostra posts
+router.get('/show/:id', PostsController.showPosts)
 
 module.exports = router
