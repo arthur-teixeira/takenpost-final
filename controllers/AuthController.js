@@ -1,4 +1,9 @@
 const passport = require("passport")
+const mongoose = require("mongoose")
+const bcrypt = require("bcryptjs")
+
+require("../models/User")
+const User = mongoose.model('users')
 
 module.exports = {
     getLogin: (req, res) => {
