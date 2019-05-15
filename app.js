@@ -72,7 +72,7 @@ app.get('/',(req,res) =>{
 app.use('/user', userRoute)
 
 app.use((req,res,next) =>{
-   res.status(404).render("404/404")
+   res.status(404).render("errors/404")
 })
 
 const port = process.env.PORT || 5000
