@@ -37,7 +37,11 @@ router.route('/add')
    .get(ensureAuth, PostsController.getAdd)
    //adiciona post
    .post(ensureAuth, PostsController.postAdd)
-//mostra posts
+
+   //mostra posts
 router.get('/show/:id', PostsController.showPosts)
+
+//comentar
+router.post('/comment/:id', PostsController.postComment);
 
 module.exports = router

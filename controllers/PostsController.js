@@ -36,5 +36,19 @@ module.exports = {
         .then(post =>{
            res.render("user/show", {post})
         }) 
+     },
+     postComment:(req,res) =>{
+        Post.findOne({_id : req.params.id})
+         .then(post =>{
+            let newComment= {
+               commentBody: req.body.commentBody,
+               commentUser:req.user.id
+            }
+            post.comments.unshift(newComment)
+            post.save()
+               .then(post =>{
+                  res.redirect(`/user/show/${post.id}`)
+               })
+         })
      }
 }
