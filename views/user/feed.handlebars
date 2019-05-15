@@ -1,7 +1,7 @@
 {{#each posts}}
 <div class="post">
    <div class="post-header">
-      <a href="/user/profile/{{posts.user.id}}">
+      <a href="/user/profile/{{user.id}}">
          <img src="/img/pfp2.jpg" class="pfp-post-header">
          <p class="lead text-dark">{{user.name}}</p>
       </a>
@@ -14,7 +14,7 @@
       <ul class="mr-auto navbar-nav my-3">
          <li>
             <i class="like far fa-heart fa-2x"></i>
-            <a href="/post/show/ID" class="text-dark"><i class="far fa-comments fa-2x comment-button"></i></a>
+            <a href="/user/show/{{id}}" class="text-dark"><i class="far fa-comments fa-2x comment-button"></i></a>
             <p class="text-muted"><span class="likers text-dark">{{likes}}</span> curtiram isso</p>
          </li>
          <li class="comment-section mt-1 mb-2">
@@ -23,15 +23,15 @@
                <li class="comentario">
                   <p>
                      <a href="/users/id" class="usuario font-weight-bold text-dark">{{user.name}}</a>
-                     {{posts.comment}}
+                     {{comment}}
                   </p>
                </li>
                {{/each}}
             </ul>
          </li>
-         <form class="form-inline my-2 my-lg-0">
+         <form class="form-inline my-2 my-lg-0" action="/user/comment/{{id}}" method="POST">
             <input class="form-control mr-sm-2 comment-box" type="text" placeholder="Escreva aqui"
-               aria-label="Comentar">
+               aria-label="Comentar" name="commentBody">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Comentar</button>
          </form>
       </ul>
