@@ -1,13 +1,13 @@
 <div>
    <div class="post-header">
-      <a href="/user/profile/{{posts.user.id}}">
+      <a href="/user/profile/{{user.id}}">
          <img src="/img/pfp2.jpg" class="pfp-post-header">
-         <p class="lead text-dark">{{posts.user.name}}</p>
+         <p class="lead text-dark">{{user.name}}</p>
       </a>
    </div>
    <figure>
       <img src="/img/land2.jpg" class="img-fluid">
-      <figcaption class="mt-2">{{posts.caption}}</figcaption>
+      <figcaption class="mt-2">{{caption}}</figcaption>
    </figure>
    <div class="comment">
       <ul class="mr-auto navbar-nav my-3">
@@ -17,11 +17,11 @@
          </li>
          <li class="comment-section mt-1 mb-2">
             <ul>
-               {{#each comment}}
+               {{#each post.comments}}
                <li class="comentario">
                   <p>
-                     <a href="/users/id" class="usuario font-weight-bold text-dark">{{user.name}}</a>
-                     {{comment}}
+                     <a href="/users/id" class="usuario font-weight-bold text-dark">{{commentUser}}</a>
+                     {{commentBody}}
                   </p>
                </li>
                {{/each}}
@@ -40,3 +40,6 @@
    </div>
 
 </div>
+
+<script src="/js/comment.js"></script>
+<script src="/js/likeButton.js"></script>

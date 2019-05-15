@@ -1,10 +1,9 @@
+{{#if posts}}
 {{#each posts}}
 <div class="post">
    <div class="post-header">
-      <a href="/user/profile/{{user.id}}">
          <img src="/img/pfp2.jpg" class="pfp-post-header">
          <p class="lead text-dark">{{user.name}}</p>
-      </a>
    </div>
    <figure>
       <img src="/img/land2.jpg" class="img-fluid">
@@ -19,19 +18,19 @@
          </li>
          <li class="comment-section mt-1 mb-2">
             <ul>
-               {{#each comment}}
+               {{#each comments}}
                <li class="comentario">
                   <p>
-                     <a href="/users/id" class="usuario font-weight-bold text-dark">{{user.name}}</a>
-                     {{comment}}
+                     <a href="/users/id" class="usuario font-weight-bold text-dark">{{commentUser}}</a>
+                     {{commentBody}}
                   </p>
                </li>
                {{/each}}
             </ul>
          </li>
          <form class="form-inline my-2 my-lg-0" action="/user/comment/{{id}}" method="POST">
-            <input class="form-control mr-sm-2 comment-box" type="text" placeholder="Escreva aqui"
-               aria-label="Comentar" name="commentBody">
+            <input class="form-control mr-sm-2 comment-box" type="text" placeholder="Escreva aqui" aria-label="Comentar"
+               name="commentBody">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Comentar</button>
          </form>
       </ul>
@@ -39,5 +38,9 @@
 
 </div>
 {{/each}}
+{{else}}
+<h3>Não há nada por aqui</h3>
+<a href="/user/add">Publicar algo</a>
+{{/if}}
 <script src="/js/likeButton.js"></script>
 <script src="/js/comment.js"></script>
