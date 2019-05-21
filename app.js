@@ -6,6 +6,7 @@ const flash = require("connect-flash");
 const session = require("express-session")
 const path = require("path");
 const passport = require("passport");
+const methodOverride = require("method-override");
 const app = express()
 
 
@@ -25,6 +26,9 @@ app.engine('handlebars', exphbs({
    defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
+
+//middleware method override
+app.use(methodOverride('_method'));
 
 //middleware body parser
 app.use(bodyParser.urlencoded({

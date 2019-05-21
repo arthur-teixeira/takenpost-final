@@ -3,7 +3,7 @@
 
     commentBtns.forEach(btn => {
         btn.addEventListener("click", () =>{
-            console.log(btn)
+            
             commentInputs[commentBtns.indexOf(btn)].focus();
         })
     });
