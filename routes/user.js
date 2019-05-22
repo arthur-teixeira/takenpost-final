@@ -38,10 +38,17 @@ router.route('/add')
    //adiciona post
    .post(ensureAuth, PostsController.postAdd)
 
-   //mostra posts
+//mostra posts
 router.get('/show/:id', PostsController.showPosts)
 
 //comentar
 router.post('/comment/:id', PostsController.postComment);
+
+//dashboard
+router.get('/dashboard', ensureAuth, UserController.getDashboard)
+
+//editar e deletar
+router.delete('/delete/:id',ensureAuth, PostsController.deletePost)
+   
 
 module.exports = router

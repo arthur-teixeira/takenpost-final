@@ -57,5 +57,12 @@ module.exports = {
                   res.redirect(`/user/show/${post.id}`)
                })
          })
+   },
+   deletePost: (req,res) =>{
+      Post.deleteOne({_id: req.params.id})
+         .then(result =>{
+            req.flash("success_msg", "Post deletado")
+            res.redirect("/user/dashboard")
+         })
    }
 }
