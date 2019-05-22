@@ -27,8 +27,7 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-//middleware method override
-app.use(methodOverride('_method'));
+
 
 //middleware body parser
 app.use(bodyParser.urlencoded({
@@ -63,6 +62,9 @@ app.use(function(req, res, next){
    res.locals.user = req.user;
    next();
  });
+
+ //middleware method override
+app.use(methodOverride('_method'));
 
 //root
 app.get('/',(req,res) =>{
