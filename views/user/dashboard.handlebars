@@ -1,8 +1,21 @@
+{{#if posts}}
 <div class="jumbotron">
-    {{#each posts}}
-        <form action="/edit/{{id}}?_method=DELETE" method="POST">
-            
-            <input type="submit" class="btn btn-secondary" value="Deletar">
-        </form>
-    {{/each}}
+    <table class="table table-striped">
+        <tbody>
+            {{#each posts}}
+            <tr>
+                <td><h4>{{caption}}</h4></td>
+                <td><a href="/user/edit/{{id}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Editar</a></td>
+                <form action="/user/delete/{{id}}?_method=DELETE" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                   <td> <button type="submit" class="btn btn-danger"><i class="fa fa-remove"></i>Deletar</button></td>
+                </form>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
+{{else}}
+    <p class="lead">Você não possui nenhum post.</p>
+    <a href="/user/add" class="btn btn-primary">Criar post</a>
+{{/if}}

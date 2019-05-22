@@ -34,5 +34,11 @@ module.exports = {
                  posts:posts
               })
            })
+     },
+     getDashboard:(req,res) =>{
+        Post.find({user: req.user._id})
+         .then(posts =>{
+            res.render('user/dashboard',{posts})
+         })
      }
 }
