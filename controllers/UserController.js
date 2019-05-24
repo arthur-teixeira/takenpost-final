@@ -8,7 +8,7 @@ require("../models/Post")
 const Post = mongoose.model("posts")
 
 module.exports = {
-    getUserProfile: (req, res) => {
+    getUserProfile: (req, res,next) => {
         let userid = req.params.id;
         User.findById(userid)
            .then(user =>{
@@ -21,9 +21,13 @@ module.exports = {
                  res.redirect("/user/login")
               }
            })
-           .catch(err => console.log(err))
+           .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
+         })
      },
-     getFeed:(req, res) => {
+     getFeed:(req, res,next) => {
         Post.find({})
            .populate('user')
            .sort({
@@ -34,11 +38,21 @@ module.exports = {
                  posts:posts
               })
            })
+           .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
+         })
      },
-     getDashboard:(req,res) =>{
+     getDashboard:(req,res,next) =>{
         Post.find({user: req.user._id})
          .then(posts =>{
             res.render('user/dashboard',{posts})
+         })
+         .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
          })
      }
 }

@@ -7,11 +7,14 @@ const session = require("express-session")
 const path = require("path");
 const passport = require("passport");
 const methodOverride = require("method-override");
+//const csrf = require("csurf");
 const app = express()
 
 
 // Passport Config local
 require('./config/localPassport')(passport);
+
+//let csrfProtection = csrf({ cookie: true })
 
 //middleware Express session 
 app.use(session({
@@ -77,8 +80,16 @@ app.get('/',(req,res) =>{
 //definicao de rotas
 app.use('/user', userRoute)
 
-app.use((req,res,next) =>{
+app.get('/500', (req,res)=>{
+   res.render("errors/500")
+})
+
+app.use((req,res) =>{
    res.status(404).render("errors/404")
+})
+
+app.use((err,req,res,next)=>{
+   res.status(err.httpStatusCode).redirect(`/${err.httpStatusCode}`)
 })
 
 const port = process.env.PORT || 5000

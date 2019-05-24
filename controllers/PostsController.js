@@ -9,10 +9,10 @@ const Post = mongoose.model("posts")
 
 
 module.exports = {
-   getAdd: (req, res) => {
+   getAdd: (req, res, next) => {
       res.render("user/add")
    },
-   postAdd: (req, res) => {
+   postAdd: (req, res, next) => {
       let allowComments;
       req.body.allowComments ?
          allowComments = true :
@@ -29,8 +29,13 @@ module.exports = {
          .then(post => {
             res.redirect(`/user/show/${post.id}`)
          })
+         .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
+         })
    },
-   showPosts: (req, res) => {
+   showPosts: (req, res, next) => {
       let postid = req.params.id;
       Post.findOne({
             _id: postid
@@ -41,8 +46,13 @@ module.exports = {
                post
             })
          })
+         .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
+         })
    },
-   postComment: (req, res) => {
+   postComment: (req, res, next) => {
       Post.findOne({
             _id: req.params.id
          })
@@ -57,12 +67,22 @@ module.exports = {
                   res.redirect(`/user/show/${post.id}`)
                })
          })
+         .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
+         })
    },
-   deletePost: (req,res) =>{
+   deletePost: (req, res, next) =>{
       Post.deleteOne({_id: req.params.id})
          .then(result =>{
             req.flash("success_msg", "Post deletado")
             res.redirect("/user/dashboard")
+         })
+         .catch(err => {
+            let error = err;
+            error.httpStatusCode = 500;
+            next(error)
          })
    }
 }

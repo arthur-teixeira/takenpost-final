@@ -25,7 +25,7 @@ module.exports = {
         res.redirect('/user/login')
      },
      
-    postRegister: (req, res) => {
+    postRegister: (req, res,next) => {
         let errors = [];
 
         if (req.body.password != req.body.password2) {
@@ -68,8 +68,9 @@ module.exports = {
                                         res.redirect("/user/login")
                                     })
                                     .catch(err => {
-                                        console.log(err);
-                                        return;
+                                        let error = err;
+                                        error.httpStatusCode = 500;
+                                        next(error)
                                     })
                             })
                         })
