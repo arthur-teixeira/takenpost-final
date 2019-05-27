@@ -2,28 +2,29 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-   name:{
+   name: {
       type: String,
       required: true
    },
-   lastName:{
-      type :String,
-      required:true
-   },
-   email:{
+   lastName: {
       type: String,
       required: true
    },
-   password:{
+   email: {
       type: String,
       required: true
    },
-   date:{
+   password: {
+      type: String,
+      required: true
+   },
+   date: {
       type: Date,
       default: Date.now
    },
-   pfp:{
-      type: Buffer
+   pfpPath: {
+      type: String,
+      default: '/images/def-pfp.jpg'
    }
 });
 

@@ -7,6 +7,7 @@ const session = require("express-session")
 const path = require("path");
 const passport = require("passport");
 const methodOverride = require("method-override");
+const multer = require("multer")
 //const csrf = require("csurf");
 const app = express()
 
@@ -16,12 +17,32 @@ require('./config/localPassport')(passport);
 
 //let csrfProtection = csrf({ cookie: true })
 
+const fileStorage = multer.diskStorage({
+   destination: (req, file, cb) => {
+      cb(null, 'images');
+   },
+   filename: (req, file, cb) => {
+      cb(null, new Date().toISOString() + '-' + file.originalname);
+   }
+});
+
+const fileFilter = (req, file, cb) => {
+   if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+   ) {
+      cb(null, true);
+   } else {
+      cb(null, false);
+   }
+};
 //middleware Express session 
 app.use(session({
    secret: 'secret',
    resave: true,
    saveUninitialized: true
- }));
+}));
 app.use(flash());
 
 //middleware handlebars
@@ -31,13 +52,18 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 
-
 //middleware body parser
 app.use(bodyParser.urlencoded({
    extended: false
 }));
 app.use(bodyParser.json());
-
+//multer middleware
+app.use(
+   multer({
+      storage: fileStorage,
+      fileFilter: fileFilter
+   }).single('image')
+);
 
 
 //pasta estática
@@ -52,43 +78,42 @@ mongoose.connect('mongodb://localhost/takenpost-dev', {
    })
    .then(() => console.log("Conectado ao banco"))
    .catch(err => console.log(err))
-   
- //middleware Passport
- app.use(passport.initialize());
- app.use(passport.session());
- 
+
+//middleware Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 //variáveis globais
-app.use(function(req, res, next){
+app.use((req, res, next) => {
    res.locals.success_msg = req.flash('success_msg');
    res.locals.error_msg = req.flash('error_msg');
    res.locals.error = req.flash('error');
    res.locals.user = req.user;
    next();
- });
+});
 
- //middleware method override
+//middleware method override
 app.use(methodOverride('_method'));
 
 //root
-app.get('/',(req,res) =>{
-   (req.isAuthenticated()) 
-   ? res.redirect("/user/feed") 
-   : res.redirect("/user/login")
+app.get('/', (req, res) => {
+   (req.isAuthenticated()) ?
+   res.redirect("/user/feed"): res.redirect("/user/login")
 })
 
 
 //definicao de rotas
 app.use('/user', userRoute)
 
-app.get('/500', (req,res)=>{
+app.get('/500', (req, res) => {
    res.render("errors/500")
 })
 
-app.use((req,res) =>{
+app.use((req, res) => {
    res.status(404).render("errors/404")
 })
 
-app.use((err,req,res,next)=>{
+app.use((err, req, res, next) => {
    res.status(err.httpStatusCode).redirect(`/${err.httpStatusCode}`)
 })
 

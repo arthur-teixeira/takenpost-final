@@ -1,37 +1,37 @@
-const mongoose= require("mongoose")
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-   image:{
-      type : Buffer,
-      required:true
+   imgPath: {
+      type: String,
+      required: true
    },
-   caption:{
-      type: String  
+   caption: {
+      type: String
    },
-   allowComments:{
+   allowComments: {
       type: Boolean,
       default: true
    },
-   comments:[{
-      commentBody:{
+   comments: [{
+      commentBody: {
          type: String,
          required: true
       },
-      commentDate:{
+      commentDate: {
          type: Date,
          default: Date.now
       },
-      commentUser:{
+      commentUser: {
          type: String,
-         required:true
+         required: true
       }
    }],
-   user:{
-      type:Schema.Types.ObjectId,
-      ref:'users'
+   user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users'
    },
-   date:{
+   date: {
       type: Date,
       default: Date.now
    }

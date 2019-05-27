@@ -19,21 +19,25 @@ module.exports = {
     getRegisterForm: (req, res) => {
         res.render("user/register")
     },
-    logout:(req, res) => {
+    logout: (req, res) => {
         req.logout();
         req.flash("success_msg", "Você saiu")
         res.redirect('/user/login')
-     },
-     
-    postRegister: (req, res,next) => {
+    },
+
+    postRegister: (req, res, next) => {
         let errors = [];
 
         if (req.body.password != req.body.password2) {
-            errors.push({ text: 'As senhas não são iguais' })
+            errors.push({
+                text: 'As senhas não são iguais'
+            })
         }
 
         if (req.body.password.length < 6) {
-            errors.push({ text: 'A senha precisa ter no mínimo 6 caracteres' })
+            errors.push({
+                text: 'A senha precisa ter no mínimo 6 caracteres'
+            })
         }
 
         if (errors.length > 0) {
@@ -44,18 +48,21 @@ module.exports = {
                 email: req.body.email
             });
         } else {
-            User.findOne({ email: req.body.email })
+            User.findOne({
+                    email: req.body.email
+                })
                 .then(user => {
                     if (user) {
                         req.flash("error_msg", "Este email já está cadastrado")
                         res.redirect('/user/register')
                     } else {
+                        const image = req.file
                         const newUser = new User({
                             name: req.body.name,
                             lastName: req.body.lastName,
                             email: req.body.email,
                             password: req.body.password,
-                            pfp: req.body.avatar
+                            pfp: image.path
                         });
 
                         bcrypt.genSalt(10, (err, salt) => {
