@@ -7,15 +7,39 @@ const User = mongoose.model("users")
 require("../models/Post")
 const Post = mongoose.model("posts")
 
-
 module.exports = {
    getAdd: (req, res, next) => {
       res.render("user/add")
    },
    postAdd: (req, res, next) => {
-      const image = req.files.image;
-      console.log(image)
+      if (!req.files) {
+         req.flash("error_msg", "nenhum arquivo anexado")
+         return res.redirect('/user/add')
+      }
+      const image = req.files.image
+      const extension = path.extname(image.name)
+      const mimetype = image.mimetype
+      console.log(mimetype)
+      if (mimetype != 'image/jpg' && mimetype != 'image/jpeg' && mimetype != 'image/png') {
+         req.flash("error_msg", "O arquivo enviado não é uma imagem")
+         return res.redirect('/user/add')
+      }
+      const imgPath = `/${Date.now().toString()}-${image.md5}${extension}`
+      image.mv(`./images${imgPath}`)
+      let allowComments;
+      req.body.allowComments ? allowComments = true : allowComments = false
+      const newPost = new Post({
+         imgPath,
+         caption: req.body.legenda,
+         allowComments,
+         user: req.user._id
+      })
+      newPost.save() //salva no DB
+         .then(post => {
+            res.redirect(`/user/show/${post._id}`) //redireciona
+         })
    },
+
    showPosts: (req, res, next) => {
       let postid = req.params.id;
       Post.findOne({
@@ -28,9 +52,7 @@ module.exports = {
             })
          })
          .catch(err => {
-            let error = err;
-            error.httpStatusCode = 500;
-            next(error)
+            next(err)
          })
    },
    postComment: (req, res, next) => {
@@ -49,9 +71,7 @@ module.exports = {
                })
          })
          .catch(err => {
-            let error = err;
-            error.httpStatusCode = 500;
-            next(error)
+            next(err)
          })
    },
    deletePost: (req, res, next) => {
@@ -63,9 +83,7 @@ module.exports = {
             res.redirect("/user/dashboard")
          })
          .catch(err => {
-            let error = err;
-            error.httpStatusCode = 500;
-            next(error)
+            next(err)
          })
    }
 }
