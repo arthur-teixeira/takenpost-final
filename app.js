@@ -41,6 +41,7 @@ app.use(fileUpload());
 
 //pasta estática
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'images')));
 
 //carregar rotas
 const userRoute = require("./routes/user")
@@ -87,7 +88,7 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
-   res.status(err.httpStatusCode).redirect(`/${err.httpStatusCode}`)
+   res.status(500).redirect(`/500`)
 })
 
 const port = process.env.PORT || 5000
