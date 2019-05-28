@@ -2,11 +2,11 @@
 {{#each posts}}
 <div class="post">
    <div class="post-header">
-         <img src="/img/pfp2.jpg" class="pfp-post-header">
-         <p class="lead text-dark">{{user.name}}</p>
+      <img src="/img/pfp2.jpg" class="pfp-post-header">
+      <p class="lead text-dark">{{user.name}}</p>
    </div>
    <figure>
-      <img src="/img/land2.jpg" class="img-fluid">
+      <img src="{{imgPath}}" class="img-fluid">
       <figcaption class="mt-2 h6">{{caption}}</figcaption>
    </figure>
    <div class="comment">
@@ -26,11 +26,13 @@
                {{/each}}
             </ul>
          </li>
+         {{#if allowComments}}
          <form class="form-inline my-2 my-lg-0" action="/user/comment/{{id}}" method="POST">
             <input class="form-control mr-sm-2 comment-box" type="text" placeholder="Escreva aqui" aria-label="Comentar"
                name="commentBody">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Comentar</button>
          </form>
+         {{/if}}
       </ul>
    </div>
 
