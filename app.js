@@ -7,36 +7,13 @@ const session = require("express-session")
 const path = require("path");
 const passport = require("passport");
 const methodOverride = require("method-override");
-const multer = require("multer")
-//const csrf = require("csurf");
-const app = express()
+const fileUpload = require("express-fileupload");
+const app = express();
 
 
 // Passport Config local
 require('./config/localPassport')(passport);
 
-//let csrfProtection = csrf({ cookie: true })
-
-const fileStorage = multer.diskStorage({
-   destination: (req, file, cb) => {
-      cb(null, 'images');
-   },
-   filename: (req, file, cb) => {
-      cb(null, new Date().toISOString() + '-' + file.originalname);
-   }
-});
-
-const fileFilter = (req, file, cb) => {
-   if (
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg'
-   ) {
-      cb(null, true);
-   } else {
-      cb(null, false);
-   }
-};
 //middleware Express session 
 app.use(session({
    secret: 'secret',
@@ -57,13 +34,9 @@ app.use(bodyParser.urlencoded({
    extended: false
 }));
 app.use(bodyParser.json());
-//multer middleware
-app.use(
-   multer({
-      storage: fileStorage,
-      fileFilter: fileFilter
-   }).single('image')
-);
+
+//middleware express-fileupload
+app.use(fileUpload());
 
 
 //pasta estática

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const path = require("path");
 //carrega modelo do usuário
 require("../models/User");
 const User = mongoose.model("users")
@@ -13,30 +13,8 @@ module.exports = {
       res.render("user/add")
    },
    postAdd: (req, res, next) => {
-      console.log("object")
-      // const image = req.file;
-      // console.log(image, "teste2")
-      // let allowComments;
-      // req.body.allowComments ?
-      //    allowComments = true :
-      //    allowComments = false
-
-      // const newPost = {
-      //    imgPath: image.path,
-      //    caption: req.body.legenda,
-      //    allowComments,
-      //    user: req.user.id
-      // }
-
-      // new Post(newPost).save()
-      //    .then(post => {
-      //       res.redirect(`/user/show/${post.id}`)
-      //    })
-      //    .catch(err => {
-      //       let error = err;
-      //       error.httpStatusCode = 500;
-      //       next(error)
-      //    })
+      const image = req.files.image;
+      console.log(image)
    },
    showPosts: (req, res, next) => {
       let postid = req.params.id;
