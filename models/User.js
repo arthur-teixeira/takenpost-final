@@ -21,10 +21,6 @@ const UserSchema = new Schema({
    date: {
       type: Date,
       default: Date.now
-   },
-   pfpPath: {
-      type: String,
-      default: '/images/def-pfp.jpg'
    }
 });
 

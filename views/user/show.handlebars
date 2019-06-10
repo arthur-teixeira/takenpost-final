@@ -1,11 +1,8 @@
 <div>
    <div class="post-header">
-      <a href="/user/profile/{{user.id}}">
-         <img src="/img/pfp2.jpg" class="pfp-post-header">
-         <p class="lead text-dark">{{user.name}}</p>
-      </a>
+      <p class="lead text-dark">{{post.user.name}}</p>
    </div>
-   <figure>
+   <figure class="post-image">
       <img src="{{post.imgPath}}" class="img-fluid">
       <figcaption class="mt-2">{{caption}}</figcaption>
    </figure>
@@ -38,4 +35,3 @@
 </div>
 
 <script src="/js/comment.js"></script>
-<script src="/js/likeButton.js"></script>

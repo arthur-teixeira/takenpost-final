@@ -49,8 +49,8 @@ module.exports = {
             });
         } else {
             User.findOne({
-                    email: req.body.email
-                })
+                email: req.body.email
+            })
                 .then(user => {
                     if (user) {
                         req.flash("error_msg", "Este email já está cadastrado")
@@ -61,8 +61,7 @@ module.exports = {
                             name: req.body.name,
                             lastName: req.body.lastName,
                             email: req.body.email,
-                            password: req.body.password,
-                            pfp: image.path
+                            password: req.body.password
                         });
 
                         bcrypt.genSalt(10, (err, salt) => {
