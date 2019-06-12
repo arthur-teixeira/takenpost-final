@@ -1,2 +1,2 @@
-# takenpost-final
+# takenpost
 # é necessário criar uma pasta "images"
